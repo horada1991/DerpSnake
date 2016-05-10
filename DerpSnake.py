@@ -2,21 +2,21 @@ import curses
 import time
 import random
 
-PlaceFood() #Dávid
-
-MoveUp()   #fal elakadás
-
-MoveDown()  #fal elakadás
-
-MoveRight() #fal elakadás
-
-MoveLeft()  #fal elakadás
+FoodCoords() #Dávid
 
 Environment() #Dávid
 
-Turn() """????""" #Ádám
+MovingCoords() #Adam
 
-Eat() #Ádám
+Eat() #Adam
+
+PrintMove()
+
+PrintEat()
+
+PrintFood()
+
+PrintEnd()
 
 main()
 
