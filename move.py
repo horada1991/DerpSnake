@@ -1,11 +1,13 @@
 #Moving Snake's parts' coordinates
-def ListShift(List, y, x):
-    for element in range(len(List)-1, 1, -1):
-        List[element] = List[element-2]
-    List[0] = y
-    List[1] = x
-    return(List)
-
+def MovingCoords(List, y, x, edge_y, edge_x):
+    if y < edge_y and x < edge_x:
+        for element in range(len(List)-1, 1, -1):
+            List[element] = List[element-2]
+        List[0] = y
+        List[1] = x
+        return(List)
+    else:
+        return 0
 
 
 #TEST LINES
