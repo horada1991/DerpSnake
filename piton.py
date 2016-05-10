@@ -1,6 +1,6 @@
 #Moving Snake's parts' coordinates
 def MovingCoords(CoordList, y, x, edge_y, edge_x):
-    if y < edge_y and x < edge_x:
+    if y < edge_y and x < edge_x and (x not in CoordList[2:] and y not in CoordList[2:]):
         for element in range(len(CoordList)-1, 1, -1):
             CoordList[element] = CoordList[element-2]
         CoordList[0] = y
@@ -21,6 +21,7 @@ def Eat(CoordList, food_y, food_x):
     return(CoordList)
 
 
+""" TEST NEEDED !!!!!!!!!!!!!!!!!!!!!"""
 
 #TEST LINES
 """List1 = [x for x in range(1, 101)]
