@@ -12,6 +12,7 @@ MovingCoords() #Adam
 
 Eat() #Adam
 
+DelSnake() #
 PrintMove() #
 
 PrintEat() #
