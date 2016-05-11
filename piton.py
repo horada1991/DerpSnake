@@ -1,11 +1,11 @@
-#Moving Snake's parts' coordinates
 import curses
 screen = curses.initscr()
 dims = screen.getmaxyx()
 
+#Moving Snake's parts' coordinates
 def MovingCoords(CoordList, y, x):
     global dims
-    if y < dims[0]-1 and x < dims[1]-1 and (x not in CoordList[2:] and y not in CoordList[2:]):
+    if (y < dims[0] and x < dims[1]) and (x not in CoordList[2:] or y not in CoordList[2:]):
         for element in range(len(CoordList)-1, 1, -1):
             CoordList[element] = CoordList[element-2]
         CoordList[0] = y
@@ -41,9 +41,9 @@ def PrintSnake(CoordList):
 
 
 #TEST LINES
-ist1 = [2, 1, 2, 2, 2, 3, 2, 4, 2, 5]
+"""ist1 = [2, 1, 2, 2, 2, 3, 2, 4, 2, 5]
 PrintSnake(List1)
 screen.getch()
 DelSnake(List1)
 screen.getch()
-curses.endwin()
+curses.endwin()"""

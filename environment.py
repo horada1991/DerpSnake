@@ -2,7 +2,7 @@ import curses
 import random
 screen = curses.initscr()
 dims = screen.getmaxyx()
-screen.border()
+
 def Food():
     global screen
     global dims
@@ -16,10 +16,10 @@ def Food():
     FoodCoords = [y, x]
     return(FoodCoords)
 
-screen.addstr(0, 5, "   Score:   ")
+"""screen.addstr(0, 5, "   Score:   ")"""
 
 
 
-Food()
+"""Food()
 screen.getch()
-curses.endwin()
+curses.endwin()"""
