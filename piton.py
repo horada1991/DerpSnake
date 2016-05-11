@@ -13,18 +13,18 @@ def MovingCoords(CoordList, y, x, edge_y, edge_x):
 def Eat(CoordList, food_y, food_x):
     if CoordList[0] == food_y and CoordList[1] == food_x:
         if CoordList[-2] == CoordList[-4]:
-            CoordList.extend([CoordList[-2],
-              CoordList[-1] + (CoordList[-1] - CoordList[-3])])
+            CoordList.extend([CoordList[-2], CoordList[-1] * 2 - CoordList[-3]])
         elif CoordList[-1] == CoordList[-3]:
-            CoordList.extend(CoordList[-2] + (CoordList[-2] - CoordList[-4]),
-              [CoordList[-1]])
+            CoordList.extend([CoordList[-2] * 2 - CoordList[-4], CoordList[-1]])
     return(CoordList)
 
 
-""" TEST NEEDED !!!!!!!!!!!!!!!!!!!!!"""
+
+
+
+
 
 #TEST LINES
-"""List1 = [x for x in range(1, 101)]
+"""List1 = [1,2,3,4,5,6,2,3,3,3]
 print(List1)
-ListShift(List1, 200, 200)
-print(List1)"""
+print("\n", Eat(List1, 1, 2))"""

@@ -4,19 +4,19 @@ import random
 
 FoodCoords() #Dávid
 
+PrintFood() #Dávid
+
 Environment() #Dávid
 
 MovingCoords() #Adam
 
 Eat() #Adam
 
-PrintMove()
+PrintMove() #
 
-PrintEat()
+PrintEat() #
 
-PrintFood()
-
-PrintEnd()
+PrintEnd() #Dávid
 
 main()
 
