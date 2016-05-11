@@ -5,7 +5,7 @@ dims = screen.getmaxyx()
 #Moving Snake's parts' coordinates
 def MovingCoords(CoordList, y, x):
     global dims
-    if y < dims[0] and x < dims[1]:
+    if y < dims[0] and x < dims[1] and y > 0 and x > 0:
         for i in range(2, len(CoordList)-1, 2):
             if CoordList[i] == y and CoordList[i+1] == x:
                 return 0
@@ -29,22 +29,23 @@ def Eat(CoordList, food_y, food_x):
         return 0
 
 #del snake
-def DelSnake(CoordList):
+"""def DelSnake(CoordList):
     global screen
     for i in range(0, len(CoordList) - 1, 2):
         screen.delch(CoordList[i], CoordList[i + 1])
-        screen.addch(CoordList[i], CoordList[i + 1], " ")
+        screen.addch(CoordList[i], CoordList[i + 1], " ")"""
 
 #print snake on new coords
 def PrintSnake(CoordList):
     global screen
     for i in range(0, len(CoordList)-1, 2):
-        screen.addch(CoordList[i], CoordList[i+1], "@")
+        screen.addch(CoordList[i], CoordList[i+1], "▪")
 
 
 
 """TEST LINES
-dims = (10, 15)
 List1 = [2, 5, 2, 4, 2, 3, 2, 2, 2, 1]
-print(MovingCoords(List1, 2, 6))
+print(List1)
+Coords = Eat(List1, 2, 5)
+print(Coords)
 curses.endwin()"""
