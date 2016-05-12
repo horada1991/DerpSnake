@@ -21,8 +21,12 @@ def GameOver():
     global screen
     global dims
     screen.border()
-    screen.addstr(0, 5, "   Score:   ")
-    screen.addstr(int(dims[0]/2), int(dims[1]/2-8), " G A M E   O V E R ")
+    message1 = 'GAME OVER'
+    message3 = 'Press Space to play again'
+    message4 = 'Press Enter to quit'
+    screen.addstr(int(dims[0]/2-1), int((dims[1]-len(message1))/2), message1)
+    screen.addstr(int(dims[0]/2+1), int((dims[1]-len(message3))/2), message3)
+    screen.addstr(int(dims[0]/2+2), int((dims[1]-len(message4))/2), message4)
 
 
 """Food()

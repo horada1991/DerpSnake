@@ -4,28 +4,37 @@ import random
 import piton
 import environment
 
+
 curses.noecho()
 curses.curs_set(0)
 screen = curses.initscr()
 screen.nodelay(1)
+curses.start_color()
+curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
+curses.init_pair(3, curses.COLOR_YELLOW, curses.COLOR_BLACK)
 screen.keypad(1)
 dims = screen.getmaxyx()
+Score = 0
 
 FoodCoords = environment.Food()
 Coords = [4, 13, 4, 12, 4, 11]
 move_y = 0
 move_x = 1
 q = -1
+ScoreMessage = "  Score:   "
 screen.border()
+screen.addstr(0, 5, ScoreMessage)
 
 while q != ord("q"):
     q = screen.getch()
     screen.addch(FoodCoords[0], FoodCoords[1], "✪")
     EatCoords = piton.Eat(Coords, FoodCoords[0], FoodCoords[1])
     if EatCoords != 0:
-        screen.addch(Coords[-2], Coords[-1], "▪")
+        screen.addch(Coords[-2], Coords[-1], "▪", curses.color_pair(1))
         FoodCoords = environment.Food()
         Coords = EatCoords
+        Score += 1
+        ScoreMessage = "  Score: " + str(Score) + " "
     if q == curses.KEY_UP and move_y != 1:
         move_y, move_x = -1, 0
     elif q == curses.KEY_DOWN and move_y != -1:
@@ -40,27 +49,26 @@ while q != ord("q"):
     if Coords == 0:
         screen.clear()
         environment.GameOver()
+        message2 = 'You got ' + str(Score) + ' points'
+        screen.addstr(int(dims[0]/2), int((dims[1]-len(message2))/2), message2)
+        screen.refresh()
         while q not in [32, 10]:
             q = screen.getch()
-            if q == 32:
-                q = -1
-                FoodCoords = environment.Food()
-                Coords = [4, 13, 4, 12, 4, 11]
-                move_y = 0
-                move_x = 1
-                q = -1
-            else:
-                curses.endwin()
+        if q == 32:
+            screen.clear()
+            FoodCoords = environment.Food()
+            Coords = [4, 13, 4, 12, 4, 11]
+            move_y = 0
+            move_x = 1
+            Score = 0
+        else:
+            q = ord('q')
+
     else:
         screen.clear()
-        screen.addch(FoodCoords[0], FoodCoords[1], "✪")
+        screen.addch(FoodCoords[0], FoodCoords[1], "✪", curses.color_pair(3))
         piton.PrintSnake(Coords)
         screen.border()
-    time.sleep(0.1)
-
-
-""" Levels()
-    Score()
-    Move
-
-"""
+        screen.addstr(0, 5, ScoreMessage)
+    time.sleep(0.15)
+curses.endwin()

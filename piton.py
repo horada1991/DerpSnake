@@ -1,6 +1,9 @@
 import curses
 screen = curses.initscr()
 dims = screen.getmaxyx()
+curses.start_color()
+curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
+curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
 
 #Moving Snake's parts' coordinates
 def MovingCoords(CoordList, y, x):
@@ -17,7 +20,7 @@ def MovingCoords(CoordList, y, x):
     else:
         return 0
 
-#If eat food, than grow in length
+#If eat food, then grow in length
 def Eat(CoordList, food_y, food_x):
     if CoordList[0] == food_y and CoordList[1] == food_x:
         if CoordList[-2] == CoordList[-4]:
@@ -39,7 +42,8 @@ def Eat(CoordList, food_y, food_x):
 def PrintSnake(CoordList):
     global screen
     for i in range(0, len(CoordList)-1, 2):
-        screen.addch(CoordList[i], CoordList[i+1], "▪")
+        screen.addch(CoordList[i], CoordList[i+1], "▪", curses.color_pair(1))
+    screen.addch(CoordList[0], CoordList[1], "▪", curses.color_pair(2))
 
 
 
