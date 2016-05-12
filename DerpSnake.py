@@ -1,6 +1,7 @@
 import curses
 import time
 import random
+import os
 import piton
 import environment
 
@@ -25,6 +26,7 @@ q = -1
 ScoreMessage = "  Score:   "
 screen.border()
 screen.addstr(0, 5, ScoreMessage)
+
 
 while q != ord("q"):
     q = screen.getch()
@@ -52,11 +54,15 @@ while q != ord("q"):
     #If There's the wall in (Coords[0] and Coords[1]):
     if (screen.inch(Coords[0], Coords[1]) != ord(" "))  and \
             (screen.inch(Coords[0], Coords[1]) != ord("✪")):
-        with open("highscore.md", "r+") as f:
-            highscore = int(f.read())
-            if highscore < Score:
-                f.seek(0)
-                f.write(str(Score))
+        try:
+            with open("highscore.md", "r+") as f:
+                highscore = int(f.read())
+                if highscore < Score:
+                    f.seek(0)
+                    f.write(str(Score))
+        except FileNotFoundError:
+            with open("highscore.md", "w") as f:
+                    f.write(str(Score))
         screen.clear()
         environment.GameOver()
         message2 = 'You got ' + str(Score) + ' points'
