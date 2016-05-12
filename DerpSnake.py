@@ -21,9 +21,7 @@ screen.border()
 while q != ord("q"):
     q = screen.getch()
     screen.addch(FoodCoords[0], FoodCoords[1], "✪")
-    food_y = FoodCoords[0]
-    food_x = FoodCoords[1]
-    EatCoords = piton.Eat(Coords, food_y, food_x)
+    EatCoords = piton.Eat(Coords, FoodCoords[0], FoodCoords[1])
     if EatCoords != 0:
         screen.addch(Coords[-2], Coords[-1], "▪")
         FoodCoords = environment.Food()
@@ -42,7 +40,18 @@ while q != ord("q"):
     if Coords == 0:
         screen.clear()
         environment.GameOver()
-        q = ord("q")
+        screen.nodelay(0)
+        q = screen.getch()
+        if q == ord("r"):
+            q = -1
+            FoodCoords = environment.Food()
+            Coords = [4, 13, 4, 12, 4, 11]
+            move_y = 0
+            move_x = 1
+            q = -1
+            screen.nodelay(1)
+        else:
+            curses.endwin()
     else:
         screen.clear()
         screen.addch(FoodCoords[0], FoodCoords[1], "✪")
@@ -50,9 +59,6 @@ while q != ord("q"):
         screen.border()
     time.sleep(0.1)
 
-screen.nodelay(0)
-screen.getch()
-curses.endwin()
 
 """ Levels()
     Score()
