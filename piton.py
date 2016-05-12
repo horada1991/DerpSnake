@@ -8,17 +8,11 @@ curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
 #Moving Snake's parts' coordinates
 def MovingCoords(CoordList, y, x):
     global dims
-    if y < dims[0] and x < dims[1] and y > 0 and x > 0:
-        for i in range(2, len(CoordList)-1, 2):
-            if CoordList[i] == y and CoordList[i+1] == x:
-                return 0
-        for element in range(len(CoordList)-1, 1, -1):
-            CoordList[element] = CoordList[element-2]
-        CoordList[0] = y
-        CoordList[1] = x
-        return(CoordList)
-    else:
-        return 0
+    for element in range(len(CoordList)-1, 1, -1):
+        CoordList[element] = CoordList[element-2]
+    CoordList[0] = y
+    CoordList[1] = x
+    return(CoordList)
 
 #If eat food, then grow in length
 def Eat(CoordList, food_y, food_x):
@@ -35,5 +29,5 @@ def Eat(CoordList, food_y, food_x):
 def PrintSnake(CoordList):
     global screen
     for i in range(0, len(CoordList)-1, 2):
-        screen.addch(CoordList[i], CoordList[i+1], "▪", curses.color_pair(1))
-    screen.addch(CoordList[0], CoordList[1], "▪", curses.color_pair(2))
+        screen.addch(CoordList[i], CoordList[i+1], "O", curses.color_pair(1))
+    screen.addch(CoordList[0], CoordList[1], "@", curses.color_pair(2))

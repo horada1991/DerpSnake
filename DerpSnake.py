@@ -30,9 +30,9 @@ while q != ord("q"):
     q = screen.getch()
     screen.addch(FoodCoords[0], FoodCoords[1], "✪")
     EatCoords = piton.Eat(Coords, FoodCoords[0], FoodCoords[1])
-    #If piton.Eat() doesn't return 0 (== snake eats and grow):
+    #If piton.Eat() doesn't returns 0 (== snake eats and grow):
     if EatCoords != 0:
-        screen.addch(Coords[-2], Coords[-1], "▪", curses.color_pair(1))
+        screen.addch(Coords[-2], Coords[-1], "O", curses.color_pair(1))
         FoodCoords = environment.Food()
         Coords = EatCoords
         Score += 1
@@ -49,8 +49,9 @@ while q != ord("q"):
     y_head = Coords[0] + move_y
     x_head = Coords[1] + move_x
     Coords = piton.MovingCoords(Coords, y_head, x_head)
-    #If piton.MovingCoords() return 0 (==wall or hit itself):
-    if Coords == 0:
+    #If There's the wall in (Coords[0] and Coords[1]):
+    if (screen.inch(Coords[0], Coords[1]) != ord(" "))  and \
+            (screen.inch(Coords[0], Coords[1]) != ord("✪")):
         with open("highscore.md", "r+") as f:
             highscore = int(f.read())
             if highscore < Score:
@@ -60,6 +61,7 @@ while q != ord("q"):
         environment.GameOver()
         message2 = 'You got ' + str(Score) + ' points'
         screen.addstr(int(dims[0]/2), int((dims[1]-len(message2))/2), message2)
+        screen.border()
         screen.refresh()
         while q not in [32, 10]:
             q = screen.getch()
