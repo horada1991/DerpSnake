@@ -5,6 +5,15 @@ import os
 import piton
 import environment
 
+def Level():
+    level = environment.StartGame()
+    if level == 1:
+       speed = 0.12
+    elif level == 2:
+       speed = 0.07
+    elif level == 3:
+       speed = 0.03
+    return(speed)
 
 curses.noecho()
 curses.curs_set(0)
@@ -27,6 +36,7 @@ ScoreMessage = "  Score:   "
 screen.border()
 screen.addstr(0, 5, ScoreMessage)
 
+speed = Level()
 
 while q != ord("q"):
     q = screen.getch()
@@ -72,6 +82,7 @@ while q != ord("q"):
         while q not in [32, 10]:
             q = screen.getch()
         if q == 32:
+            speed = Level()
             screen.clear()
             FoodCoords = environment.Food()
             Coords = [4, 13, 4, 12, 4, 11]
@@ -88,5 +99,5 @@ while q != ord("q"):
         piton.PrintSnake(Coords)
         screen.border()
         screen.addstr(0, 5, ScoreMessage)
-    time.sleep(0.15)
+    time.sleep(speed)
 curses.endwin()
