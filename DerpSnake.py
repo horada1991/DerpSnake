@@ -40,18 +40,17 @@ while q != ord("q"):
     if Coords == 0:
         screen.clear()
         environment.GameOver()
-        screen.nodelay(0)
-        q = screen.getch()
-        if q == ord("r"):
-            q = -1
-            FoodCoords = environment.Food()
-            Coords = [4, 13, 4, 12, 4, 11]
-            move_y = 0
-            move_x = 1
-            q = -1
-            screen.nodelay(1)
-        else:
-            curses.endwin()
+        while q not in [32, 10]:
+            q = screen.getch()
+            if q == 32:
+                q = -1
+                FoodCoords = environment.Food()
+                Coords = [4, 13, 4, 12, 4, 11]
+                move_y = 0
+                move_x = 1
+                q = -1
+            else:
+                curses.endwin()
     else:
         screen.clear()
         screen.addch(FoodCoords[0], FoodCoords[1], "✪")
