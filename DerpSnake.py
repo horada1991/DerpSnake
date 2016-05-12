@@ -47,6 +47,11 @@ while q != ord("q"):
     x_head = Coords[1] + move_x
     Coords = piton.MovingCoords(Coords, y_head, x_head)
     if Coords == 0:
+        with open("highscore.md", "r+") as f:
+            highscore = int(f.read())
+            if highscore < Score:
+                f.seek(0)
+                f.write(str(Score))
         screen.clear()
         environment.GameOver()
         message2 = 'You got ' + str(Score) + ' points'
@@ -61,6 +66,7 @@ while q != ord("q"):
             move_y = 0
             move_x = 1
             Score = 0
+            ScoreMessage = "  Score:   "
         else:
             q = ord('q')
 
