@@ -31,25 +31,9 @@ def Eat(CoordList, food_y, food_x):
     else:
         return 0
 
-#del snake
-"""def DelSnake(CoordList):
-    global screen
-    for i in range(0, len(CoordList) - 1, 2):
-        screen.delch(CoordList[i], CoordList[i + 1])
-        screen.addch(CoordList[i], CoordList[i + 1], " ")"""
-
 #print snake on new coords
 def PrintSnake(CoordList):
     global screen
     for i in range(0, len(CoordList)-1, 2):
         screen.addch(CoordList[i], CoordList[i+1], "▪", curses.color_pair(1))
     screen.addch(CoordList[0], CoordList[1], "▪", curses.color_pair(2))
-
-
-
-"""TEST LINES
-List1 = [2, 5, 2, 4, 2, 3, 2, 2, 2, 1]
-print(List1)
-Coords = Eat(List1, 2, 5)
-print(Coords)
-curses.endwin()"""
