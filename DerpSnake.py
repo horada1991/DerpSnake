@@ -30,7 +30,7 @@ screen.addstr(0, 5, ScoreMessage)
 
 while q != ord("q"):
     q = screen.getch()
-    screen.addch(FoodCoords[0], FoodCoords[1], "✪")
+    screen.addch(FoodCoords[0], FoodCoords[1], "$")
     EatCoords = piton.Eat(Coords, FoodCoords[0], FoodCoords[1])
     #If piton.Eat() doesn't returns 0 (== snake eats and grow):
     if EatCoords != 0:
@@ -53,7 +53,7 @@ while q != ord("q"):
     Coords = piton.MovingCoords(Coords, y_head, x_head)
     #If There's the wall in (Coords[0] and Coords[1]):
     if (screen.inch(Coords[0], Coords[1]) != ord(" "))  and \
-            (screen.inch(Coords[0], Coords[1]) != ord("✪")):
+            (screen.inch(Coords[0], Coords[1]) != ord("$")):
         try:
             with open("highscore.md", "r+") as f:
                 highscore = int(f.read())
@@ -84,7 +84,7 @@ while q != ord("q"):
     #Snake goes forward 1 step
     else:
         screen.clear()
-        screen.addch(FoodCoords[0], FoodCoords[1], "✪", curses.color_pair(3))
+        screen.addch(FoodCoords[0], FoodCoords[1], "$", curses.color_pair(3))
         piton.PrintSnake(Coords)
         screen.border()
         screen.addstr(0, 5, ScoreMessage)
