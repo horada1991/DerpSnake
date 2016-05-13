@@ -41,14 +41,15 @@ def Food():
     FoodCoords = [y, x]
     return(FoodCoords)
 
-def GameOver():
+def GameOver(level):
     global screen
     global dims
     message1 = 'GAME OVER'
     message3 = 'Press Space to play again'
     message4 = 'Press Enter to quit'
     with open("highscore.md", "r") as f:
-        message5 ="Highscore: " + f.read()
+        highscore = f.readlines()
+        message5 ="Highscore: " + highscore[int(level) - 1]
     screen.addstr(int(dims[0]/2-1), int((dims[1]-len(message1))/2), message1)
     screen.addstr(int(dims[0]/2+2), int((dims[1]-len(message3))/2), message3)
     screen.addstr(int(dims[0]/2+3), int((dims[1]-len(message4))/2), message4)

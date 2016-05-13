@@ -5,16 +5,6 @@ import os
 import piton
 import environment
 
-def Level():
-    level = environment.StartGame()
-    if level == 1:
-       speed = 0.12
-    elif level == 2:
-       speed = 0.07
-    elif level == 3:
-       speed = 0.03
-    return(speed)
-
 curses.noecho()
 curses.curs_set(0)
 screen = curses.initscr()
@@ -36,7 +26,13 @@ ScoreMessage = "  Score:   "
 screen.border()
 screen.addstr(0, 5, ScoreMessage)
 
-speed = Level()
+level = environment.StartGame()
+if level == 1:
+   speed = 0.12
+elif level == 2:
+   speed = 0.07
+elif level == 3:
+   speed = 0.03
 
 while q != ord("q"):
     q = screen.getch()
@@ -66,23 +62,34 @@ while q != ord("q"):
             (screen.inch(Coords[0], Coords[1]) != ord("$")):
         try:
             with open("highscore.md", "r+") as f:
-                highscore = int(f.read())
-                if highscore < Score:
-                    f.seek(0)
-                    f.write(str(Score))
+                highscore = f.readlines()
+                if int(highscore[int(level) - 1]) < Score:
+                    highscore[int(level) - 1] = str(Score) + "\n"
+                f.seek(0)
+                for line in highscore:
+                    f.write(line)
         except FileNotFoundError:
             with open("highscore.md", "w") as f:
-                    f.write(str(Score))
+                    f.write(str(Score) + "\n" + str(Score) + "\n" + str(Score) + "\n")
         screen.clear()
-        environment.GameOver()
+        environment.GameOver(level)
         message2 = 'You got ' + str(Score) + ' points'
         screen.addstr(int(dims[0]/2), int((dims[1]-len(message2))/2), message2)
         screen.border()
         screen.refresh()
         while q not in [32, 10]:
             q = screen.getch()
+        #Start new game:
         if q == 32:
-            speed = Level()
+            screen.clear()
+            screen.border()
+            level = environment.StartGame()
+            if level == 1:
+               speed = 0.12
+            elif level == 2:
+               speed = 0.07
+            elif level == 3:
+               speed = 0.03
             screen.clear()
             FoodCoords = environment.Food()
             Coords = [4, 13, 4, 12, 4, 11]
