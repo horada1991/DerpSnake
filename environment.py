@@ -3,7 +3,8 @@ import random
 screen = curses.initscr()
 dims = screen.getmaxyx()
 
-def StartGame():
+
+def start_game():
     global screen
     global dims
     q = 0
@@ -25,7 +26,7 @@ def StartGame():
         return(3)
 
 
-def Food():
+def food():
     global screen
     global dims
     foodmade = False
@@ -38,10 +39,11 @@ def Food():
         x = random.randrange(x1, x2)
         if screen.inch(y, x) == ord(" "):
             foodmade = True
-    FoodCoords = [y, x]
-    return(FoodCoords)
+    food_coords = [y, x]
+    return(food_coords)
 
-def GameOver(level):
+
+def game_over(level):
     global screen
     global dims
     message1 = 'GAME OVER'
@@ -49,7 +51,7 @@ def GameOver(level):
     message4 = 'Press Enter to quit'
     with open("highscore.md", "r") as f:
         highscore = f.readlines()
-        message5 ="Highscore: " + highscore[int(level) - 1]
+        message5 = "Highscore: " + highscore[int(level) - 1]
     screen.addstr(int(dims[0]/2-1), int((dims[1]-len(message1))/2), message1)
     screen.addstr(int(dims[0]/2+2), int((dims[1]-len(message3))/2), message3)
     screen.addstr(int(dims[0]/2+3), int((dims[1]-len(message4))/2), message4)
