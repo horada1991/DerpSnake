@@ -14,7 +14,8 @@ curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
 curses.init_pair(3, curses.COLOR_YELLOW, curses.COLOR_BLACK)
 screen.keypad(1)
 dims = screen.getmaxyx()
-Score = 0
+score = 0
+
 
 # Starting parameters
 food_coords = environment.food()
@@ -22,17 +23,13 @@ coords = [4, 13, 4, 12, 4, 11]
 move_y = 0
 move_x = 1
 q = -1
-score_message = "  Score:   "
+score_message = "  score:   "
 screen.border()
 screen.addstr(0, 5, score_message)
+speed = 0.08
 
 level = environment.start_game()
-if level == 1:
-    speed = 0.12
-elif level == 2:
-    speed = 0.07
-elif level == 3:
-    speed = 0.03
+
 
 while q != ord("q"):
     q = screen.getch()
@@ -43,8 +40,9 @@ while q != ord("q"):
         screen.addch(coords[-2], coords[-1], "O", curses.color_pair(1))
         food_coords = environment.food()
         coords = eat_coords
-        Score += 1
-        score_message = "  Score: " + str(Score) + " "
+        score += 1
+        speed = piton.speed_raise(score, speed)
+        score_message = "  score: " + str(score) + " "
     # Handle Key push events
     if q == curses.KEY_UP and move_y != 1:
         move_y, move_x = -1, 0
@@ -63,18 +61,18 @@ while q != ord("q"):
         try:
             with open("highscore.md", "r+") as f:
                 highscore = f.readlines()
-                if int(highscore[int(level) - 1]) < Score:
-                    highscore[int(level) - 1] = str(Score) + "\n"
+                if int(highscore[int(level) - 1]) < score:
+                    highscore[int(level) - 1] = str(score) + "\n"
                 f.seek(0)
                 for line in highscore:
                     f.write(line)
         except FileNotFoundError:
             with open("highscore.md", "w") as f:
-                    f.write(str(Score) + "\n" + str(Score) + "\n" +
-                            str(Score) + "\n")
+                    f.write(str(score) + "\n" + str(score) + "\n" +
+                            str(score) + "\n")
         screen.clear()
         environment.game_over(level)
-        message2 = 'You got ' + str(Score) + ' points'
+        message2 = 'You got ' + str(score) + ' points'
         screen.addstr(int(dims[0]/2), int((dims[1]-len(message2))/2), message2)
         screen.border()
         screen.refresh()
@@ -85,19 +83,14 @@ while q != ord("q"):
             screen.clear()
             screen.border()
             level = environment.start_game()
-            if level == 1:
-                speed = 0.12
-            elif level == 2:
-                speed = 0.07
-            elif level == 3:
-                speed = 0.03
             screen.clear()
             food_coords = environment.food()
             coords = [4, 13, 4, 12, 4, 11]
             move_y = 0
             move_x = 1
-            Score = 0
-            score_message = "  Score:   "
+            score = 0
+            score_message = "  score:   "
+            speed = 0.08
         else:
             q = ord('q')
     # Snake goes forward 1 step

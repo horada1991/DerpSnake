@@ -9,9 +9,9 @@ def start_game():
     global dims
     q = 0
     level = 'Choose a level!'
-    level1 = 'Press 1 for IZIMODE'
-    level2 = 'Press 2 for Hard Mode'
-    level3 = 'Press 3 for Deathwish mode'
+    level1 = 'Press 1 for level1'
+    level2 = 'Press 2 for level2'
+    level3 = 'Press 3 for level3'
     screen.addstr(int(dims[0]/2-1), int((dims[1]-len(level))/2), level)
     screen.addstr(int(dims[0]/2), int((dims[1]-len(level1))/2), level1)
     screen.addstr(int(dims[0]/2+1), int((dims[1]-len(level2))/2), level2)

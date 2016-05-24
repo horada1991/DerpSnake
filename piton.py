@@ -36,3 +36,9 @@ def print_snake(coord_list):
     for i in range(0, len(coord_list)-1, 2):
         screen.addch(coord_list[i], coord_list[i+1], "O", curses.color_pair(1))
     screen.addch(coord_list[0], coord_list[1], "@", curses.color_pair(2))
+
+
+def speed_raise(score, speed):
+    if score % 5 == 0:
+        speed -= 0.005
+    return speed
