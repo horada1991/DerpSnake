@@ -4,6 +4,7 @@ import random
 import os
 import piton
 import environment
+import maps
 
 curses.noecho()
 curses.curs_set(0)
@@ -26,10 +27,18 @@ q = -1
 score_message = "  score:   "
 screen.border()
 screen.addstr(0, 5, score_message)
-speed = 0.08
 
-level = environment.start_game()
 
+def get_level():
+    level, speed = environment.start_game()
+    if level == 1:
+        return("".lower, level, speed)
+    elif level == 2:
+        return(maps.level1, level, speed)
+    elif level == 3:
+        return(maps.level2, level, speed)
+
+map_layout, level, speed = get_level()
 
 while q != ord("q"):
     q = screen.getch()
@@ -82,7 +91,8 @@ while q != ord("q"):
         if q == 32:
             screen.clear()
             screen.border()
-            level = environment.start_game()
+            map_layout, level, speed = get_level()
+            map_layout()
             screen.clear()
             food_coords = environment.food()
             coords = [4, 13, 4, 12, 4, 11]
@@ -98,6 +108,7 @@ while q != ord("q"):
         screen.clear()
         screen.addch(food_coords[0], food_coords[1], "$", curses.color_pair(3))
         piton.print_snake(coords)
+        map_layout()
         screen.border()
         screen.addstr(0, 5, score_message)
     time.sleep(speed)

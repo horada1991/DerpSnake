@@ -7,6 +7,7 @@ dims = screen.getmaxyx()
 def start_game():
     global screen
     global dims
+    speed = 0.1
     q = 0
     level = 'Choose a level!'
     level1 = 'Press 1 for level1'
@@ -19,11 +20,11 @@ def start_game():
     while q not in [49, 50, 51]:
         q = screen.getch()
     if q == 49:
-        return(1)
+        return(1, speed)
     elif q == 50:
-        return(2)
+        return(2, speed)
     elif q == 51:
-        return(3)
+        return(3, speed)
 
 
 def food():
