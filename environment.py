@@ -27,21 +27,51 @@ def start_game():
         return(3, speed)
 
 
-def food():
+def food(n, food_coords, poison_food_coords, hp_food_coords):
     global screen
     global dims
-    foodmade = False
-    while not foodmade:
-        y1 = 2
-        y2 = dims[0]-1
-        x1 = 2
-        x2 = dims[1]-1
-        y = random.randrange(y1, y2)
-        x = random.randrange(x1, x2)
-        if screen.inch(y, x) == ord(" "):
-            foodmade = True
-    food_coords = [y, x]
-    return(food_coords)
+    food_coords_local = []
+    for food in range(3):
+        foodmade = False
+        while not foodmade:
+            y1 = 2
+            y2 = dims[0]-1
+            x1 = 2
+            x2 = dims[1]-1
+            y = random.randrange(y1, y2)
+            x = random.randrange(x1, x2)
+            if screen.inch(y, x) == ord(" "):
+                foodmade = True
+        food_coords_local.extend([y, x])
+    if n == 2:
+        poison_food_coords = food_coords_local[2:4]
+    elif n == 3:
+        hp_food_coords = food_coords_local[-2:]
+    else:
+        food_coords = food_coords_local[:2]
+    return(food_coords, poison_food_coords, hp_food_coords)
+
+
+def start_food():
+    global screen
+    global dims
+    food_coords = []
+    for food in range(3):
+        foodmade = False
+        while not foodmade:
+            y1 = 2
+            y2 = dims[0]-1
+            x1 = 2
+            x2 = dims[1]-1
+            y = random.randrange(y1, y2)
+            x = random.randrange(x1, x2)
+            if screen.inch(y, x) == ord(" "):
+                foodmade = True
+        food_coords.extend([y, x])
+    poison_food_coords = food_coords[2:4]
+    hp_food_coords = food_coords[-2:]
+    food_coords = food_coords[:2]
+    return(food_coords, poison_food_coords, hp_food_coords)
 
 
 def game_over(level):

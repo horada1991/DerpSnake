@@ -3,6 +3,7 @@ import random
 screen = curses.initscr()
 dims = screen.getmaxyx()
 
+
 def level1():
     global dims
     global screen

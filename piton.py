@@ -17,17 +17,20 @@ def moving_coords(coord_list, y, x):
 
 
 # If eat food, then grow in length
-def eat(coord_list, food_y, food_x):
-    if coord_list[0] == food_y and coord_list[1] == food_x:
+def eat(coord_list, food_coords, poison_food_coords, hp_food_coords):
+    if coord_list[0] == food_coords[0] and coord_list[1] == food_coords[1]:
         if coord_list[-2] == coord_list[-4]:
-            coord_list.extend([coord_list[-2], coord_list[-1] * 2 -
-                              coord_list[-3]])
+            coord_list.extend([coord_list[-2], coord_list[-1] * 2 - coord_list[-3]])
         elif coord_list[-1] == coord_list[-3]:
             coord_list.extend([coord_list[-2] * 2 - coord_list[-4],
                               coord_list[-1]])
         return(coord_list)
+    if coord_list[0] == poison_food_coords[0] and coord_list[1] == poison_food_coords[1]:
+        return(2)
+    if coord_list[0] == hp_food_coords[0] and coord_list[1] == hp_food_coords[1]:
+        return(3)
     else:
-        return 0
+        return(0)
 
 
 # print snake on new coords

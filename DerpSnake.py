@@ -16,10 +16,11 @@ curses.init_pair(3, curses.COLOR_YELLOW, curses.COLOR_BLACK)
 screen.keypad(1)
 dims = screen.getmaxyx()
 score = 0
+hp = 3
 
 
 # Starting parameters
-food_coords = environment.food()
+food_coords, poison_food_coords, hp_food_coords = environment.start_food()
 coords = [4, 13, 4, 12, 4, 11]
 move_y = 0
 move_x = 1
@@ -27,6 +28,14 @@ q = -1
 score_message = "  score:   "
 screen.border()
 screen.addstr(0, 5, score_message)
+
+
+def place_food(food_coords, poison_food_coords, hp_food_coords):
+    global screen
+
+    screen.addch(food_coords[0], food_coords[1], "$")
+    screen.addch(poison_food_coords[0], poison_food_coords[1], "P")
+    screen.addch(hp_food_coords[0], hp_food_coords[1], "H")
 
 
 def get_level():
@@ -40,18 +49,28 @@ def get_level():
 
 map_layout, level, speed = get_level()
 
+
 while q != ord("q"):
     q = screen.getch()
-    screen.addch(food_coords[0], food_coords[1], "$")
-    eat_coords = piton.eat(coords, food_coords[0], food_coords[1])
-    # If piton.eat() doesn't returns 0 (== snake eats and grow):
-    if eat_coords != 0:
+    place_food(food_coords, poison_food_coords, hp_food_coords)
+    eat_coords = piton.eat(coords, food_coords, poison_food_coords, hp_food_coords)
+    # If piton.eat() doesn't returns 0, 2, 3 (== snake eats and grow):
+    if eat_coords not in [0, 2, 3]:
         screen.addch(coords[-2], coords[-1], "O", curses.color_pair(1))
-        food_coords = environment.food()
+        food_coords, poison_food_coords, hp_food_coords = \
+            environment.food(1, food_coords, poison_food_coords, hp_food_coords)
         coords = eat_coords
         score += 1
         speed = piton.speed_raise(score, speed)
         score_message = "  score: " + str(score) + " "
+    elif eat_coords == 2:
+        hp -= 1
+        food_coords, poison_food_coords, hp_food_coords = \
+            environment.food(2, food_coords, poison_food_coords, hp_food_coords)
+    elif eat_coords == 3:
+        hp += 1
+        food_coords, poison_food_coords, hp_food_coords = \
+            environment.food(3, food_coords, poison_food_coords, hp_food_coords)
     # Handle Key push events
     if q == curses.KEY_UP and move_y != 1:
         move_y, move_x = -1, 0
@@ -65,8 +84,10 @@ while q != ord("q"):
     x_head = coords[1] + move_x
     coords = piton.moving_coords(coords, y_head, x_head)
     # If There's the wall in (coords[0] and coords[1]):
-    if (screen.inch(coords[0], coords[1]) != ord(" ")) and \
-            (screen.inch(coords[0], coords[1]) != ord("$")):
+    if ((screen.inch(coords[0], coords[1]) != ord(" ")) and
+       (screen.inch(coords[0], coords[1]) != ord("$") and
+       (screen.inch(coords[0], coords[1]) != ord("H")) and
+       (screen.inch(coords[0], coords[1]) != ord("P"))) or hp == 0):
         try:
             with open("highscore.md", "r+") as f:
                 highscore = f.readlines()
@@ -94,11 +115,12 @@ while q != ord("q"):
             map_layout, level, speed = get_level()
             map_layout()
             screen.clear()
-            food_coords = environment.food()
+            food_coords, poison_food_coords, hp_food_coords = environment.start_food()
             coords = [4, 13, 4, 12, 4, 11]
             move_y = 0
             move_x = 1
             score = 0
+            hp = 3
             score_message = "  score:   "
             speed = 0.08
         else:
@@ -106,7 +128,7 @@ while q != ord("q"):
     # Snake goes forward 1 step
     else:
         screen.clear()
-        screen.addch(food_coords[0], food_coords[1], "$", curses.color_pair(3))
+        place_food(food_coords, poison_food_coords, hp_food_coords)
         piton.print_snake(coords)
         map_layout()
         screen.border()
