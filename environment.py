@@ -4,15 +4,18 @@ screen = curses.initscr()
 dims = screen.getmaxyx()
 
 
+# map selecting
 def start_game():
     global screen
     global dims
     speed = 0.1
     q = 0
+    fullscreen = 'Please press F11 for better gaming experience'
     level = 'Choose a level!'
     level1 = 'Press 1 for level1'
     level2 = 'Press 2 for level2'
     level3 = 'Press 3 for level3'
+    screen.addstr(int(dims[0]/2-3), int((dims[1]-len(fullscreen))/2), fullscreen)
     screen.addstr(int(dims[0]/2-1), int((dims[1]-len(level))/2), level)
     screen.addstr(int(dims[0]/2), int((dims[1]-len(level1))/2), level1)
     screen.addstr(int(dims[0]/2+1), int((dims[1]-len(level2))/2), level2)
@@ -27,6 +30,7 @@ def start_game():
         return(3, speed)
 
 
+# food placement during the game
 def food(n, food_coords, poison_food_coords, hp_food_coords):
     global screen
     global dims
@@ -52,6 +56,7 @@ def food(n, food_coords, poison_food_coords, hp_food_coords):
     return(food_coords, poison_food_coords, hp_food_coords)
 
 
+# initial food placement
 def start_food():
     global screen
     global dims
@@ -74,6 +79,7 @@ def start_food():
     return(food_coords, poison_food_coords, hp_food_coords)
 
 
+# Game ending message
 def game_over(level):
     global screen
     global dims
